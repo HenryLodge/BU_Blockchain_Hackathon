@@ -27,12 +27,6 @@ LostChain uses blockchain technology to create a trustless, transparent, and inc
 - Solidity smart contracts
 - Ethereum blockchain
 
-## Getting Started
-
-### Prerequisites
-- Node.js 18+
-- MetaMask or compatible Web3 wallet
-
 
 ## How It Works
 
@@ -43,31 +37,6 @@ LostChain uses blockchain technology to create a trustless, transparent, and inc
 3. **Submit Claim**: The owner submits their own description of the lost item through the "Find Item" form
 4. **Match & Reward**: If descriptions match, the smart contract releases the reward and provides pickup information, including the finder's phone number for coordination
 
-### Technical Architecture
-
-#### Frontend Technologies
-
-**Next.js 15 (App Router)**
-- Server-side rendering and client-side navigation
-- File-based routing for pages (`/find`, `/report`, `/`)
-- React Server Components for optimal performance
-
-**RainbowKit + Wagmi**
-- RainbowKit provides the wallet connection UI with support for MetaMask and WalletConnect
-- Wagmi handles Ethereum interactions, including:
-  - Wallet connection state management
-  - Smart contract read/write operations
-  - Transaction signing and submission
-  - Network switching and chain management
-
-**TypeScript + Zod**
-- Type-safe form validation using Zod schemas
-- Ensures data integrity before blockchain submission
-- Validates all item attributes (name, brand, model, color, condition, features, location, date)
-
-**TailwindCSS + shadcn/ui**
-- Responsive, accessible UI components
-- Consistent design system across all pages
 
 #### Blockchain Implementation
 
@@ -108,18 +77,6 @@ The core of LostChain relies on several blockchain features:
 - **Immutability**: Permanent, tamper-proof records
 - **Trustless Execution**: No need for a central authority
 - **Transparent Transactions**: All actions verifiable on-chain
-
-#### Data Flow
-
-```
-Finder Reports Item → Hash Description → Store Hash On-Chain
-                                              ↓
-Owner Submits Claim → Hash Description → Compare Hashes
-                                              ↓
-                                    Match Found? → Yes → Release Reward + Share Contact Info
-                                              ↓
-                                             No → Claim Rejected
-```
 
 #### Privacy & Security
 
