@@ -13,7 +13,7 @@ export default function LandingPage() {
       {/* Header */}
       <header className="w-full px-6 py-4 flex items-center justify-between border-b bg-white">
         <Link href="/">
-          <h1 className="text-2xl font-bold tracking-tight text-blue-600 hover:text-blue-700 transition-colors cursor-pointer">
+          <h1 className="text-3xl font-bold tracking-tight text-blue-600 hover:text-blue-700 transition-colors cursor-pointer">
             LostChain
           </h1>
         </Link>
