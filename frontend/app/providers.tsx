@@ -22,7 +22,7 @@ const connectors = connectorsForWallets(
   ],
   {
     appName: "Decentralized Lost & Found",
-    projectId: "MY_PROJECT_ID", // Get this from https://cloud.walletconnect.com
+    projectId: "ebf9507c945453d63d149351e57dac0d",
   }
 );
 

@@ -5,6 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { AuthDialog } from "@/components/auth-dialog";
+import Image from "next/image";
 
 export default function LandingPage() {
   return (
@@ -18,35 +19,51 @@ export default function LandingPage() {
         </Link>
         
         <nav className="flex items-center gap-8">
+          <Link href="/dashboard" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+            Dashboard
+          </Link>
+          <Link href="/search" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+            Search
+          </Link>
           <Link href="/find" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
             Find Item
           </Link>
           <Link href="/report" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
             Report Item
           </Link>
-          <Link href="/about" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
-            About
-          </Link>
           <ConnectButton />
         </nav>
       </header>
 
       {/* Hero Section */}
-      <section className="flex flex-col items-center text-center mt-24 px-6">
-        <h2 className="text-4xl font-bold tracking-tight max-w-2xl">
-          Lost Something on Campus?
-          <span className="text-blue-600"> We've Got You Covered.</span>
-        </h2>
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center mt-24 px-6 max-w-6xl mx-auto">
+        <div className="flex flex-col items-center md:items-start text-center md:text-left">
+          <h2 className="text-4xl font-bold tracking-tight max-w-2xl">
+            Lost Something on Campus?
+            <span className="text-blue-600"> We've Got You Covered.</span>
+          </h2>
 
-        <p className="text-gray-600 text-lg mt-4 max-w-xl">
-          LostChain is a blockchain-powered lost and found platform designed for college campuses. 
-          Report found items, claim what's yours, and earn rewards—all secured by smart contracts 
-          that protect privacy and prevent fraud.
-        </p>
+          <p className="text-gray-600 text-lg mt-4 max-w-xl">
+            LostChain is a blockchain-powered lost and found platform designed for college campuses. 
+            Report found items, claim what's yours, and earn rewards—all secured by smart contracts 
+            that protect privacy and prevent fraud.
+          </p>
 
-        {/* Get Started CTA */}
-        <div className="mt-8">
-          <AuthDialog />
+          {/* Get Started CTA */}
+          <div className="mt-8">
+            <AuthDialog />
+          </div>
+        </div>
+
+        {/* Hero Image */}
+        <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-lg">
+          <Image
+            src="/college-students.png"
+            alt="College students on campus"
+            fill
+            className="object-cover"
+            priority
+          />
         </div>
       </section>
 
@@ -87,7 +104,7 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="py-6 text-center text-gray-500 text-sm">
-        © 2025 LostChain. All rights reserved.
+        &copy; 2025 LostChain. All rights reserved.
       </footer>
     </main>
   );
