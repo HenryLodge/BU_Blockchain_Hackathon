@@ -26,11 +26,136 @@ LostChain uses blockchain technology to create a trustless, transparent, and inc
 ### Backend
 - Solidity smart contracts
 - Ethereum blockchain
+- Keccak256 cryptographic hashing
+- Automated escrow system
 
+## Smart Contract
+
+The `LostChain.sol` smart contract is the core of the system, implementing a trustless matching and payment system.
+
+### Key Components
+
+**Data Structures**
+
+1. **ItemDescription Struct**: Stores hashed item attributes
+   - `itemNameHash`: Hashed item name
+   - `brandHash`: Hashed brand name
+   - `modelHash`: Hashed model number
+   - `colorHash`: Hashed color
+   - `conditionFeaturesHash`: Hashed condition
+   - `locationBuildingHash`: Hashed location
+   - `distinctiveFeaturesHash`: Hashed unique features
+
+2. **ReportFoundItem Struct**: Stores found item reports
+   - Item description hashes
+   - Finder's wallet address
+   - Date found and report timestamp
+   - Salt for additional security
+   - Payment status
+
+3. **ReportLostItem Struct**: Stores lost item reports
+   - Item description hashes
+   - Owner's wallet address
+   - ETH reward amount (locked in escrow)
+   - Date lost and report timestamp
+   - Salt for additional security
+   - Match and refund status
+
+4. **LostFoundMatch Struct**: Stores match information
+   - Found and lost report IDs
+   - Finder and owner addresses
+   - Reward amount
+   - Confirmation and payment status
+
+### Core Functions
+
+**1. reportFoundItem()**
+- Finder submits item details (already hashed on frontend)
+- Validates all required fields are present
+- Stores report on-chain with unique ID
+- Automatically checks for matches with existing lost reports
+- Emits `FoundReportSubmitted` event
+
+**2. reportLostItem()**
+- Owner submits item details with ETH reward (minimum 0.001 ETH)
+- Uses `nonReentrant` modifier to prevent reentrancy attacks
+- Locks ETH in contract as escrow
+- Stores report on-chain with unique ID
+- Automatically checks for matches with existing found reports
+- Emits `LostReportSubmitted` event
+
+**3. checkForMatches()**
+- Internal function called automatically after each report
+- Iterates through all opposite-type reports (found checks lost, vice versa)
+- Compares item description hashes using `descriptionsMatch()`
+- Creates match record if all hashes match
+- Locks the escrow for matched reports
+- Emits `PotentialMatchFound` event
+
+**4. descriptionsMatch()**
+- Compares two ItemDescription structs
+- Returns true only if ALL hashes match:
+  - Item name, brand, model, color, condition, location
+  - Distinctive features (optional - can be empty)
+- Pure function - no state changes
+
+**5. confirmExchange()**
+- Either finder or owner can confirm the physical exchange
+- Uses `nonReentrant` modifier for security
+- Marks match as confirmed
+- Automatically triggers payment to finder
+- Emits `MatchConfirmed` event
+
+**6. payFinder()**
+- Internal function called after confirmation
+- Releases escrowed ETH to finder's wallet
+- Marks finder as paid (prevents double payment)
+- Emits `RewardPaid` event
+
+**7. cancelLostReport()**
+- Allows owner to cancel report and get refund
+- Only works if not yet matched
+- Returns escrowed ETH to owner
+- Uses `nonReentrant` modifier
+- Emits `RewardRefunded` event
+
+### Security Features
+
+**Reentrancy Protection**
+- `nonReentrant` modifier on all ETH transfer functions
+- Prevents callback attacks during payment operations
+- Uses lock/unlock pattern
+
+**Text Normalization**
+- `formatTextForHashing()` standardizes all text input
+- Removes spaces and converts to lowercase
+- Ensures consistent hashing regardless of formatting
+
+**Hash-Based Privacy**
+- Item details never stored in plain text on-chain
+- Uses `keccak256` (Ethereum's native hash function)
+- Salt added to prevent rainbow table attacks
+- Only matching hashes reveal connection
+
+**Escrow System**
+- ETH locked in contract when lost report submitted
+- Released only after match confirmation
+- Owner can cancel and get refund if no match
+- Prevents fraud and ensures payment
+
+### Events
+
+The contract emits events for all major actions:
+- `FoundReportSubmitted`: When finder reports item
+- `LostReportSubmitted`: When owner reports lost item
+- `PotentialMatchFound`: When hashes match
+- `MatchConfirmed`: When exchange confirmed
+- `RewardPaid`: When finder receives payment
+- `RewardRefunded`: When owner cancels and gets refund
+
+These events allow the frontend to listen for real-time updates and notify users.
 
 ## How It Works
-
-### User Flow
 
 1. **Report Found Item**: A finder reports a lost item with detailed information (item name, brand, model, color, condition, distinct features, location, date)
 2. **Cryptographic Commitment**: The description is hashed and stored on-chain as a commitment hash
@@ -40,49 +165,11 @@ LostChain uses blockchain technology to create a trustless, transparent, and inc
 
 #### Blockchain Implementation
 
-**Smart Contract Architecture (Solidity)**
-
-The core of LostChain relies on several blockchain features:
-
-1. **Cryptographic Commitment Scheme**
-   - When a finder reports an item, the item details are hashed using `keccak256` (Ethereum's native hashing function)
-   - The hash is stored on-chain without revealing the actual details
-   - This prevents malicious actors from viewing item descriptions and making false claims
-
-2. **Commitment-Reveal Protocol**
-   - Owner submits their description, which is also hashed
-   - Smart contract compares the two hashes
-   - Only matching hashes trigger the reward release
-   - This ensures only the true owner with accurate details can claim the item
-
-3. **Automated Escrow & Rewards**
-   - Finders deposit a small stake when reporting items (incentivizes honest reporting)
-   - Owners deposit a reward when submitting a claim
-   - Smart contract automatically releases funds when a match is confirmed
-   - No intermediaries or manual verification needed
-
-4. **Immutable Record Keeping**
-   - All item reports and claims are permanently recorded on the blockchain
-   - Provides transparent audit trail
-   - Prevents tampering or deletion of records
-
-5. **Decentralized Identity**
-   - Wallet addresses serve as user identities
-   - No centralized database of user information
-   - Privacy-preserving while maintaining accountability
-
 **Key Blockchain Features Used:**
 - **Smart Contracts**: Automated matching and reward distribution
 - **Cryptographic Hashing**: Privacy-preserving item descriptions
 - **Immutability**: Permanent, tamper-proof records
 - **Trustless Execution**: No need for a central authority
 - **Transparent Transactions**: All actions verifiable on-chain
-
-#### Privacy & Security
-
-- **Phone numbers** are stored encrypted on-chain and only revealed upon successful match
-- **Item descriptions** are never stored in plain text on the blockchain
-- **Wallet signatures** authenticate all transactions
-- **Gas optimization** ensures cost-effective operations
 
 
