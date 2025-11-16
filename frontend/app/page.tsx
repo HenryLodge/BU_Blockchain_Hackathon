@@ -19,12 +19,6 @@ export default function LandingPage() {
         </Link>
         
         <nav className="flex items-center gap-8">
-          <Link href="/dashboard" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
-            Dashboard
-          </Link>
-          <Link href="/search" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
-            Search
-          </Link>
           <Link href="/find" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
             Find Item
           </Link>

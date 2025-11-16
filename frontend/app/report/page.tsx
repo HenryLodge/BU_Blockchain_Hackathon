@@ -29,9 +29,6 @@ const formSchema = z.object({
   itemName: z.string().min(2, {
     message: "Item name must be at least 2 characters.",
   }),
-  category: z.string().min(1, {
-    message: "Please select a category.",
-  }),
   brand: z.string().min(1, {
     message: "Brand is required. Enter N/A if not applicable.",
   }),
@@ -64,7 +61,6 @@ export default function ReportItemPage() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       itemName: "",
-      category: "",
       brand: "",
       model: "",
       color: "",
@@ -94,12 +90,6 @@ export default function ReportItemPage() {
         </Link>
         
         <nav className="flex items-center gap-8">
-          <Link href="/dashboard" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
-            Dashboard
-          </Link>
-          <Link href="/search" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
-            Search
-          </Link>
           <Link href="/find" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
             Find Item
           </Link>
@@ -132,36 +122,6 @@ export default function ReportItemPage() {
                   </FormControl>
                   <FormDescription>
                     What item did you find?
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="category"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Category</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a category" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="electronics">Electronics</SelectItem>
-                      <SelectItem value="clothing">Clothing</SelectItem>
-                      <SelectItem value="accessories">Accessories</SelectItem>
-                      <SelectItem value="books">Books</SelectItem>
-                      <SelectItem value="keys">Keys</SelectItem>
-                      <SelectItem value="wallet">Wallet/Purse</SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormDescription>
-                    Select the category that best describes the item.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

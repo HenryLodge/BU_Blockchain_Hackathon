@@ -101,6 +101,15 @@ export function AuthDialog() {
                 />
               </div>
               <div className="space-y-2">
+                <Label htmlFor="signup-phone">Phone Number</Label>
+                <Input
+                  id="signup-phone"
+                  type="tel"
+                  placeholder="(123) 456-7890"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
                 <Label htmlFor="signup-password">Password</Label>
                 <Input
                   id="signup-password"

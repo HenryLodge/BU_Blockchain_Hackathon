@@ -50,9 +50,6 @@ const formSchema = z.object({
   dateLost: z.string().min(1, {
     message: "Please provide the date you lost the item.",
   }),
-  category: z.string().min(1, {
-    message: "Please select a category.",
-  }),
 });
 
 export default function FindItemPage() {
@@ -67,7 +64,6 @@ export default function FindItemPage() {
       distinctFeatures: "",
       location: "",
       dateLost: "",
-      category: "",
     },
   });
 
@@ -88,12 +84,6 @@ export default function FindItemPage() {
         </Link>
         
         <nav className="flex items-center gap-8">
-          <Link href="/dashboard" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
-            Dashboard
-          </Link>
-          <Link href="/search" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
-            Search
-          </Link>
           <Link href="/find" className="text-blue-600 hover:text-blue-700 font-medium transition-colors">
             Find Item
           </Link>
@@ -126,36 +116,6 @@ export default function FindItemPage() {
                   </FormControl>
                   <FormDescription>
                     What item did you lose?
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="category"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Category</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a category" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="electronics">Electronics</SelectItem>
-                      <SelectItem value="clothing">Clothing</SelectItem>
-                      <SelectItem value="accessories">Accessories</SelectItem>
-                      <SelectItem value="books">Books</SelectItem>
-                      <SelectItem value="keys">Keys</SelectItem>
-                      <SelectItem value="wallet">Wallet/Purse</SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormDescription>
-                    Select the category that best describes your item.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
