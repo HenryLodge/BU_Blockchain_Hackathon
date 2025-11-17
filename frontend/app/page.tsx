@@ -25,6 +25,12 @@ export default function LandingPage() {
           <Link href="/report" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
             Report Item
           </Link>
+          <Link href="/dashboard" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+            Dashboard
+          </Link>
+          <Link href="/about" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+            About
+          </Link>
           <ConnectButton />
         </nav>
       </header>
