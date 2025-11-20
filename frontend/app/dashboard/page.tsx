@@ -151,6 +151,9 @@ export default function DashboardPage() {
           <Link href="/report" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
             Report Item
           </Link>
+          <Link href="/category" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+            Category Search
+          </Link>
           <Link href="/dashboard" className="text-blue-600 hover:text-blue-700 font-medium transition-colors">
             Dashboard
           </Link>
