@@ -162,89 +162,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Technology Section */}
-      <section className="max-w-6xl mx-auto py-16 px-6">
-        <h3 className="text-3xl font-bold text-center mb-12">Built With Cutting-Edge Technology</h3>
-        
-        <div className="grid md:grid-cols-2 gap-8">
-          <Card>
-            <CardContent className="p-6">
-              <h4 className="text-xl font-semibold mb-3 flex items-center gap-2">
-                <span className="text-2xl">⛓️</span>
-                Blockchain & Smart Contracts
-              </h4>
-              <p className="text-gray-600 mb-3">
-                Built on Ethereum using Solidity smart contracts for trustless, automated matching 
-                and payment distribution. All transactions are transparent and immutable.
-              </p>
-              <ul className="text-sm text-gray-600 space-y-1 ml-6 list-disc">
-                <li>Solidity 0.8.2+ for secure contract development</li>
-                <li>Reentrancy protection on all ETH transfers</li>
-                <li>Automated escrow and payment system</li>
-                <li>Event-driven architecture for real-time updates</li>
-              </ul>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <h4 className="text-xl font-semibold mb-3 flex items-center gap-2">
-                <span className="text-2xl">🔐</span>
-                Cryptographic Privacy
-              </h4>
-              <p className="text-gray-600 mb-3">
-                Uses Keccak256 hashing to protect sensitive item details while enabling accurate 
-                matching. Only matching hashes reveal the connection between reports.
-              </p>
-              <ul className="text-sm text-gray-600 space-y-1 ml-6 list-disc">
-                <li>Client-side hashing before blockchain submission</li>
-                <li>Salt-based protection against rainbow tables</li>
-                <li>Text normalization for consistent matching</li>
-                <li>Privacy-preserving commitment scheme</li>
-              </ul>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <h4 className="text-xl font-semibold mb-3 flex items-center gap-2">
-                <span className="text-2xl">💻</span>
-                Modern Frontend
-              </h4>
-              <p className="text-gray-600 mb-3">
-                Built with Next.js 15 and TypeScript for a fast, responsive, and type-safe user 
-                experience. Beautiful UI powered by Tailwind CSS and shadcn/ui components.
-              </p>
-              <ul className="text-sm text-gray-600 space-y-1 ml-6 list-disc">
-                <li>Next.js 15 with App Router</li>
-                <li>TypeScript for type safety</li>
-                <li>Tailwind CSS for modern styling</li>
-                <li>shadcn/ui component library</li>
-              </ul>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <h4 className="text-xl font-semibold mb-3 flex items-center gap-2">
-                <span className="text-2xl">🔗</span>
-                Web3 Integration
-              </h4>
-              <p className="text-gray-600 mb-3">
-                Seamless wallet connection and blockchain interaction using RainbowKit and Wagmi. 
-                Support for all major Ethereum wallets.
-              </p>
-              <ul className="text-sm text-gray-600 space-y-1 ml-6 list-disc">
-                <li>RainbowKit for wallet connection</li>
-                <li>Wagmi hooks for Ethereum interactions</li>
-                <li>Viem for low-level blockchain operations</li>
-                <li>Multi-wallet support (MetaMask, WalletConnect, etc.)</li>
-              </ul>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
-
       {/* Why Blockchain Section */}
       <section className="bg-blue-50 py-16 px-6">
         <div className="max-w-4xl mx-auto">
@@ -284,7 +201,7 @@ export default function AboutPage() {
               <div className="bg-white p-6 rounded-lg">
                 <h4 className="font-semibold text-blue-600 mb-2">⚡ Instant Payments</h4>
                 <p className="text-gray-600">
-                  Rewards are automatically released the moment an exchange is confirmed—no waiting 
+                  Rewards are automatically released the moment an exchange is confirmed - no waiting 
                   for manual processing.
                 </p>
               </div>
