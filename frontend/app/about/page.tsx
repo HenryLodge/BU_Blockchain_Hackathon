@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { AuthButton } from "@/components/auth-button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
@@ -23,16 +23,13 @@ export default function AboutPage() {
           <Link href="/report" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
             Report Item
           </Link>
-          <Link href="/category" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
-            Category Search
-          </Link>
           <Link href="/dashboard" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
             Dashboard
           </Link>
           <Link href="/about" className="text-blue-600 hover:text-blue-700 font-medium transition-colors">
             About
           </Link>
-          <ConnectButton />
+          <AuthButton />
         </nav>
       </header>
 

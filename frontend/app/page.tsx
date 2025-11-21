@@ -3,11 +3,24 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { AuthDialog } from "@/components/auth-dialog";
+import { ProfileDialog } from "@/components/ui/auth-dialog";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react";
+import { useAccount } from "wagmi";
+import { getUserProfile, isProfileComplete } from "@/lib/data-store";
+import { AuthButton } from "@/components/auth-button";
 
 export default function LandingPage() {
+  const [showProfileDialog, setShowProfileDialog] = useState(false);
+  const { address, isConnected } = useAccount();
+  const [hasProfile, setHasProfile] = useState(false);
+
+  useEffect(() => {
+    if (address) {
+      setHasProfile(isProfileComplete(address));
+    }
+  }, [address]);
   return (
     <main className="min-h-screen bg-gray-50 flex flex-col">
       {/* Header */}
@@ -25,16 +38,13 @@ export default function LandingPage() {
           <Link href="/report" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
             Report Item
           </Link>
-          <Link href="/category" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
-            Category Search
-          </Link>
           <Link href="/dashboard" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
             Dashboard
           </Link>
           <Link href="/about" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
             About
           </Link>
-          <ConnectButton />
+          <AuthButton />
         </nav>
       </header>
 
@@ -53,8 +63,34 @@ export default function LandingPage() {
           </p>
 
           {/* Get Started CTA */}
-          <div className="mt-8">
-            <AuthDialog />
+          <div className="mt-8 flex gap-4">
+            {!isConnected ? (
+              <div className="flex flex-col gap-3">
+                <p className="text-sm text-gray-600">Connect your wallet to get started</p>
+                <AuthButton />
+              </div>
+            ) : !hasProfile ? (
+              <Button 
+                size="lg" 
+                className="px-12 py-6 text-lg"
+                onClick={() => setShowProfileDialog(true)}
+              >
+                Complete Profile
+              </Button>
+            ) : (
+              <div className="flex gap-4">
+                <Link href="/find">
+                  <Button size="lg" className="px-8 py-6 text-lg">
+                    Report Lost Item
+                  </Button>
+                </Link>
+                <Link href="/report">
+                  <Button size="lg" variant="outline" className="px-8 py-6 text-lg">
+                    Report Found Item
+                  </Button>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
 
@@ -109,6 +145,16 @@ export default function LandingPage() {
       <footer className="py-6 text-center text-gray-500 text-sm">
         &copy; 2025 LostChain. All rights reserved.
       </footer>
+
+      {/* Profile Dialog */}
+      <ProfileDialog 
+        open={showProfileDialog} 
+        onOpenChange={setShowProfileDialog}
+        onProfileComplete={() => {
+          setHasProfile(true);
+          setShowProfileDialog(false);
+        }}
+      />
     </main>
   );
 }
