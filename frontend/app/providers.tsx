@@ -12,7 +12,6 @@ import {
 import { WagmiProvider, createConfig, http } from "wagmi";
 import { mainnet } from "wagmi/chains";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-
 const connectors = connectorsForWallets(
   [
     {
