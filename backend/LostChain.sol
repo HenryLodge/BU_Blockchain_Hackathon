@@ -16,20 +16,20 @@ contract LostChain {
     // item attrs
     struct ItemDescription {
         // required fields
-        bytes32 itemNameHash;
-        bytes32 brandHash;
-        bytes32 modelHash;
-        bytes32 colorHash;
-        bytes32 conditionFeaturesHash;
-        bytes32 locationBuildingHash;
-        bytes32 distinctiveFeaturesHash;
+        bytes32 categoryFieldHash;
+        bytes32 subcategoryFieldHash;
+        bytes32 itemTypeFieldHash;
+        bytes32 brandFieldHash;
+        bytes32 colorFieldHash;
+        bytes32 distinctFeaturesFieldHash; // not dropdown
+        bytes32 locationFoundFieldHash; // not dropdown
     }
     
     // found item report attrs
     struct ReportFoundItem {
         uint256 id;
         ItemDescription itemDescriptions;
-        address finderAddress;
+        address finderWalletAddress;
         uint256 dateFound;
         uint256 reportTimestamp;
         bytes32 salt;
@@ -40,7 +40,7 @@ contract LostChain {
     struct ReportLostItem {
         uint256 id;
         ItemDescription itemDescriptions;
-        address ownerAddress;
+        address ownerWalletAddress;
         uint256 ethRewardAmount;
         uint256 dateLost;
         uint256 reportTimestamp;
@@ -121,23 +121,24 @@ contract LostChain {
     // FUNCTIONS
     // create found item report
     function reportFoundItem(
-        bytes32 itemNameHash,
-        bytes32 brandHash,
-        bytes32 modelHash,
-        bytes32 colorHash,
-        bytes32 conditionFeaturesHash,
-        bytes32 locationBuildingHash,
-        bytes32 distinctiveFeaturesHash,
+        bytes32 categoryFieldHash,
+        bytes32 subcategoryFieldHash,
+        bytes32 itemTypeFieldHash,
+        bytes32 brandFieldHash,
+        bytes32 colorFieldHash,
+        bytes32 distinctFeaturesFieldHash,
+        bytes32 locationFoundFieldHash,
         uint256 dateFound,
         bytes32 salt
     ) external returns (uint256) {
         // make sure required fields are filled valid
-        require(itemNameHash != bytes32(0));
-        require(brandHash != bytes32(0));
-        require(modelHash != bytes32(0));
-        require(colorHash != bytes32(0));
-        require(conditionFeaturesHash != bytes32(0));
-        require(locationBuildingHash != bytes32(0));
+        require(categoryFieldHash != bytes32(0));
+        require(subcategoryFieldHash != bytes32(0));
+        require(itemTypeFieldHash != bytes32(0));
+        require(brandFieldHash != bytes32(0));
+        require(colorFieldHash != bytes32(0));
+        require(distinctFeaturesFieldHash != bytes32(0));
+        require(locationFoundFieldHash != bytes32(0));
         require(dateFound > 0 && dateFound <= block.timestamp);
         require(salt != bytes32(0));
         
@@ -149,15 +150,15 @@ contract LostChain {
         foundReports[reportId] = ReportFoundItem({
             id: reportId,
             itemDescriptions: ItemDescription({
-                itemNameHash: itemNameHash,
-                brandHash: brandHash,
-                modelHash: modelHash,
-                colorHash: colorHash,
-                conditionFeaturesHash: conditionFeaturesHash,
-                locationBuildingHash: locationBuildingHash,
-                distinctiveFeaturesHash: distinctiveFeaturesHash
+                categoryFieldHash: categoryFieldHash,
+                subcategoryFieldHash: subcategoryFieldHash,
+                itemTypeFieldHash: itemTypeFieldHash,
+                brandFieldHash: brandFieldHash,
+                colorFieldHash: colorFieldHash,
+                distinctFeaturesFieldHash: distinctFeaturesFieldHash,
+                locationFoundFieldHash: locationFoundFieldHash
             }),
-            finderAddress: msg.sender,
+            finderWalletAddress: msg.sender,
             dateFound: dateFound,
             reportTimestamp: block.timestamp,
             salt: salt,
@@ -179,24 +180,25 @@ contract LostChain {
     
     // create lost item report, take ETH out of reporter wallet and lock
     function reportLostItem(
-        bytes32 itemNameHash,
-        bytes32 brandHash,
-        bytes32 modelHash,
-        bytes32 colorHash,
-        bytes32 conditionFeaturesHash,
-        bytes32 locationBuildingHash,
-        bytes32 distinctiveFeaturesHash,
+        bytes32 categoryFieldHash,
+        bytes32 subcategoryFieldHash,
+        bytes32 itemTypeFieldHash,
+        bytes32 brandFieldHash,
+        bytes32 colorFieldHash,
+        bytes32 distinctFeaturesFieldHash,
+        bytes32 locationFoundFieldHash,
         uint256 dateLost,
         bytes32 salt
     ) external payable nonReentrant returns (uint256) {
         // make sure required fields are filled and valid
         require(msg.value >= minReward, "Reward must be at least 0.001 ETH");
-        require(itemNameHash != bytes32(0));
-        require(brandHash != bytes32(0));
-        require(modelHash != bytes32(0));
-        require(colorHash != bytes32(0));
-        require(conditionFeaturesHash != bytes32(0));
-        require(locationBuildingHash != bytes32(0));
+        require(categoryFieldHash != bytes32(0));
+        require(subcategoryFieldHash != bytes32(0));
+        require(itemTypeFieldHash != bytes32(0));
+        require(brandFieldHash != bytes32(0));
+        require(colorFieldHash != bytes32(0));
+        require(distinctFeaturesFieldHash != bytes32(0));
+        require(locationFoundFieldHash != bytes32(0));
         require(dateLost > 0 && dateLost <= block.timestamp);
         require(salt != bytes32(0));
         
@@ -210,15 +212,15 @@ contract LostChain {
         lostReports[reportId] = ReportLostItem({
             id: reportId,
             itemDescriptions: ItemDescription({
-                itemNameHash: itemNameHash,
-                brandHash: brandHash,
-                modelHash: modelHash,
-                colorHash: colorHash,
-                conditionFeaturesHash: conditionFeaturesHash,
-                locationBuildingHash: locationBuildingHash,
-                distinctiveFeaturesHash: distinctiveFeaturesHash
+                categoryFieldHash: categoryFieldHash,
+                subcategoryFieldHash: subcategoryFieldHash,
+                itemTypeFieldHash: itemTypeFieldHash,
+                brandFieldHash: brandFieldHash,
+                colorFieldHash: colorFieldHash,
+                distinctFeaturesFieldHash: distinctFeaturesFieldHash,
+                locationFoundFieldHash: locationFoundFieldHash
             }),
-            ownerAddress: msg.sender,
+            ownerWalletAddress: msg.sender,
             ethRewardAmount: msg.value,
             dateLost: dateLost,
             reportTimestamp: block.timestamp,
@@ -269,7 +271,7 @@ contract LostChain {
         ReportLostItem storage report = lostReports[lostReportId];
         // check if report even exists and not matched/refunded
         require(report.id != 0, "Report does not exist");
-        require(report.ownerAddress == msg.sender, "Not the owner");
+        require(report.ownerWalletAddress == msg.sender, "Not the owner");
         require(!report.matched, "Already matched - cannot refund");
         require(!report.refunded, "Already refunded");
         
@@ -313,8 +315,8 @@ contract LostChain {
                     matches[numMatches] = LostFoundMatch({
                         foundReportId: reportId,
                         lostReportId: i,
-                        finderAddress: foundReport.finderAddress,
-                        ownerAddress: lostReport.ownerAddress,
+                        finderAddress: foundReport.finderWalletAddress,
+                        ownerAddress: lostReport.ownerWalletAddress,
                         ethRewardAmount: lostReport.ethRewardAmount,
                         matchTimestamp: block.timestamp,
                         paid: false,
@@ -353,8 +355,8 @@ contract LostChain {
                     matches[numMatches] = LostFoundMatch({
                         foundReportId: i,
                         lostReportId: reportId,
-                        finderAddress: foundReport.finderAddress,
-                        ownerAddress: lostReport.ownerAddress,
+                        finderAddress: foundReport.finderWalletAddress,
+                        ownerAddress: lostReport.ownerWalletAddress,
                         ethRewardAmount: lostReport.ethRewardAmount,
                         matchTimestamp: block.timestamp,
                         paid: false,
@@ -393,15 +395,15 @@ contract LostChain {
     // check if report item descriptioin hashes match, return bool
     function descriptionsMatch(ItemDescription memory desc1,ItemDescription memory desc2) internal pure returns (bool) {
         return (
-            desc1.itemNameHash == desc2.itemNameHash &&
-            desc1.brandHash == desc2.brandHash &&
-            desc1.modelHash == desc2.modelHash &&
-            desc1.colorHash == desc2.colorHash &&
-            desc1.conditionFeaturesHash == desc2.conditionFeaturesHash &&
-            desc1.locationBuildingHash == desc2.locationBuildingHash &&
-            (desc1.distinctiveFeaturesHash == desc2.distinctiveFeaturesHash ||
-             desc1.distinctiveFeaturesHash == bytes32(0) ||
-             desc2.distinctiveFeaturesHash == bytes32(0))
+            desc1.categoryFieldHash == desc2.categoryFieldHash &&
+            desc1.subcategoryFieldHash == desc2.subcategoryFieldHash &&
+            desc1.itemTypeFieldHash == desc2.itemTypeFieldHash &&
+            desc1.brandFieldHash == desc2.brandFieldHash &&
+            desc1.colorFieldHash == desc2.colorFieldHash &&
+            desc1.locationFoundFieldHash == desc2.locationFoundFieldHash &&
+            (desc1.distinctFeaturesFieldHash == desc2.distinctFeaturesFieldHash ||
+             desc1.distinctFeaturesFieldHash == bytes32(0) ||
+             desc2.distinctFeaturesFieldHash == bytes32(0))
         );
     }
     
