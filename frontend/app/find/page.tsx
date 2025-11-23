@@ -221,12 +221,27 @@ const categoryData = {
   },
 };
 
+// Color options
+const colorOptions = [
+  "Black",
+  "White",
+  "Gray",
+  "Red",
+  "Blue",
+  "Green",
+  "Yellow",
+  "Orange",
+  "Purple",
+  "Brown",
+  "Other",
+];
+
 const formSchema = z.object({
   category: z.string().min(1, { message: "Please select a category." }),
   subcategory: z.string().min(1, { message: "Please select a subcategory." }),
   itemType: z.string().min(1, { message: "Please select an item type." }),
   brand: z.string().min(1, { message: "Please select a brand." }),
-  color: z.string().min(2, { message: "Color must be at least 2 characters." }),
+  color: z.string().min(1, { message: "Please select a color." }),
   distinctFeatures: z.string().min(10, {
     message: "Distinct features must be at least 10 characters.",
   }),
@@ -557,16 +572,30 @@ export default function FindItemPage() {
               )}
             />
 
-            {/* Color Input */}
+            {/* Color Dropdown */}
             <FormField
               control={form.control}
               name="color"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Color</FormLabel>
-                  <FormControl>
-                    <Input placeholder="e.g., Black, Navy Blue, Red" {...field} />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a color" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {colorOptions.map((color) => (
+                        <SelectItem key={color} value={color}>
+                          {color}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormDescription>
                     Primary color of the item.
                   </FormDescription>

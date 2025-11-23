@@ -67,7 +67,7 @@ export default function LandingPage() {
 
           <p className="text-gray-600 text-lg mt-4 max-w-xl">
             LostChain is a blockchain-powered lost and found platform designed for college campuses. 
-            Report found items, claim what's yours, and earn rewards—all secured by smart contracts 
+            Report found items, claim what's yours, and earn rewards. All secured by smart contracts 
             that protect privacy and prevent fraud.
           </p>
 
