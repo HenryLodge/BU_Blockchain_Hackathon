@@ -1,0 +1,22 @@
+# Environment variables
+.env
+.env.local
+.env*.local
+
+# Vercel
+.vercel
+
+# Optional: Exclude CLI-only deployment files if you created them
+deploy.sh
+DEPLOYMENT.md
+QUICKSTART.md
+DEPLOY_NOW.md
+PRE_DEPLOY_CHECKLIST.md
+package.json
+package-lock.json
+
+# Keep these for website deployment:
+# vercel.json
+# .vercelignore
+# .env.example
+# VERCEL_DEPLOY.md

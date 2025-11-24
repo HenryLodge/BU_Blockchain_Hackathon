@@ -1,0 +1,51 @@
+# Backend files (not needed for frontend deployment)
+backend/
+
+# Git files
+.git/
+.gitignore
+
+# Environment files
+.env
+.env.local
+.env*.local
+
+# Node modules (will be installed during build)
+node_modules/
+
+# Build artifacts
+.next/
+out/
+dist/
+
+# Testing
+coverage/
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+
+# Documentation
+*.md
+!README.md
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Temporary files
+*.tmp
+.cache/
