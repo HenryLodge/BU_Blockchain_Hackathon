@@ -12,6 +12,7 @@ import {
 import { WagmiProvider, createConfig, http } from "wagmi";
 import { mainnet } from "wagmi/chains";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+
 const connectors = connectorsForWallets(
   [
     {
@@ -21,7 +22,7 @@ const connectors = connectorsForWallets(
   ],
   {
     appName: "Decentralized Lost & Found",
-    projectId: "ebf9507c945453d63d149351e57dac0d",
+    projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || "",
   }
 );
 
